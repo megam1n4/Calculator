@@ -9,6 +9,11 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean opPressed = false;
+    private double firstNumber = 0;
+    private int secondNumberIndex = 0;
+    private char currOp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,19 +78,68 @@ public class MainActivity extends AppCompatActivity {
                         calculatorScreen.append(".");
                         break;
                     case R.id.equals:
-                        calculatorScreen.append("0");
+                        if (opPressed) {
+                            if (currOp == '+') {
+                                String screenContent = calculatorScreen.getText().toString();
+                                double secondNumber = Double.parseDouble(screenContent.substring(secondNumberIndex, screenContent.length()));
+                                secondNumber += firstNumber;
+                                calculatorScreen.setText(String.valueOf(secondNumber));
+                                opPressed = false;
+                            }
+                            if (currOp == '-') {
+                                String screenContent = calculatorScreen.getText().toString();
+                                double secondNumber = Double.parseDouble(screenContent.substring(secondNumberIndex, screenContent.length()));
+                                secondNumber = firstNumber - secondNumber;
+                                calculatorScreen.setText(String.valueOf(secondNumber));
+                                opPressed = false;
+                            }
+                            if (currOp == '*') {
+                                String screenContent = calculatorScreen.getText().toString();
+                                double secondNumber = Double.parseDouble(screenContent.substring(secondNumberIndex, screenContent.length()));
+                                secondNumber = firstNumber * secondNumber;
+                                calculatorScreen.setText(String.valueOf(secondNumber));
+                                opPressed = false;
+                            }
+                            if (currOp == '/') {
+                                String screenContent = calculatorScreen.getText().toString();
+                                double secondNumber = Double.parseDouble(screenContent.substring(secondNumberIndex, screenContent.length()));
+                                secondNumber = firstNumber / secondNumber;
+                                calculatorScreen.setText(String.valueOf(secondNumber));
+                                opPressed = false;
+                            }
+                        }
                         break;
                     case R.id.addi:
+                        String screenContent = calculatorScreen.getText().toString();
+                        secondNumberIndex = screenContent.length() + 1;
+                        firstNumber = Double.parseDouble(screenContent);
                         calculatorScreen.append("+");
+                        opPressed = true;
+                        currOp = '+';
                         break;
                     case R.id.sub:
+                        screenContent = calculatorScreen.getText().toString();
+                        secondNumberIndex = screenContent.length() + 1;
+                        firstNumber = Double.parseDouble(screenContent);
                         calculatorScreen.append("-");
+                        opPressed = true;
+                        currOp = '-';
                         break;
                     case R.id.mul:
-                        calculatorScreen.append("*");
+                        screenContent = calculatorScreen.getText().toString();
+                        secondNumberIndex = screenContent.length() + 1;
+                        firstNumber = Double.parseDouble(screenContent);
+                        calculatorScreen.append("x");
+                        opPressed = true;
+                        currOp = '*';
                         break;
                     case R.id.div:
-                        calculatorScreen.append("/");
+                        screenContent = calculatorScreen.getText().toString();
+                        secondNumberIndex = screenContent.length() + 1;
+                        firstNumber = Double.parseDouble(screenContent);
+                        calculatorScreen.append("÷");
+                        opPressed = true;
+                        currOp = '/';
                         break;
                 }
             }
